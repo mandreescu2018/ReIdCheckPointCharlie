@@ -1,2 +1,5 @@
 utils/__pycache__/__init__.cpython-38.pyc
 utils/__pycache__/misc.cpython-38.pyc
+loss/__pycache__/__init__.cpython-38.pyc
+loss/__pycache__/center_loss.cpython-38.pyc
+loss/__pycache__/triplet_loss.cpython-38.pyc
