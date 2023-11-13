@@ -50,18 +50,18 @@ TEST:
   FEAT_NORM: 'yes'
 
 DATASETS:
-  NAMES: ('market1501')
-OUTPUT_DIR: 'out_market_cnn'
 
-#   NAMES: ('dukemtmc')
-#   ROOT_DIR: ('D:\datasets')
-# OUTPUT_DIR: 'out_dukemtmc_cnn'
+#   NAMES: ('market1501')
+# OUTPUT_DIR: 'out_market_cnn'
+
+  NAMES: ('dukemtmc')
+OUTPUT_DIR: 'out_dukemtmc_cnn'
 
 #   NAMES: ('occ_duke')
 #   ROOT_DIR: ('')
 # OUTPUT_DIR: ''
 
-  # NAMES: ('msmt17')
+#   NAMES: ('msmt17')
 # OUTPUT_DIR: 'out_msmt17_cnn'
 
 # CUDA_VISIBLE_DEVICES=0 python train.py --config_file configs/person/cnn_base.yml

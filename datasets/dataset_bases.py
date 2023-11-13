@@ -7,19 +7,23 @@ class BaseDataset(object):
     Base class of reid dataset
     """
     def get_imagedata_info(self, data):
-        pids, cams, tracks = [], [], []
+        """
+        get images information
+        return:
+            number of person identities
+            length of the data
+            number of cameras
+            number of tracks (views)
+        """
+
+        pids, cams, tracks = set(), set(), set()
         for _, pid, camid, trackid in data:
-            pids += [pid]
-            cams += [camid]
-            tracks += [trackid]
-        pids = set(pids)
-        cams = set(cams)
-        tracks = set(tracks)
-        # num_pids = len(pids)
-        # num_cams = len(cams)
-        # num_imgs = len(data)
-        # num_views = len(tracks)
+            pids.add(pid)
+            cams.add(camid)
+            tracks.add(trackid)
+
         return len(pids), len(data), len(cams), len(tracks)
+
 
 class BaseImageDataset(BaseDataset):
     """
