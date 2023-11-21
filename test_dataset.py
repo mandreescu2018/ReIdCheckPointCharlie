@@ -1,6 +1,6 @@
 import argparse
 from config import cfg
-from datasets.make_dataloader import make_dataloader
+from datasets import make_dataloader
 import time
 
 if __name__ == "__main__":
@@ -26,6 +26,25 @@ if __name__ == "__main__":
     print(f"Elapsed time: {elapsed_time:.6f} seconds")
     # print(len(train_loader))
 
+    start_time = time.perf_counter()
+
     for n_iter, (img, vid, target_cam, target_view) in enumerate(train_loader):
-        print(f'Image: {img.shape}, Vid: {vid.shape}, targetcam: {target_cam.shape}, target_view: {target_view.shape}')
+        if n_iter < 5:
+            print(f'Image: {img.shape}, Vid: {vid.shape}, targetcam: {target_cam.shape}, target_view: {target_view.shape}')
+        else:
+            break
+            
+    
+    print()
+    for n_iter, (img, vid, camid, camids, target_view, _) in enumerate(val_loader):
+    # for n_iter, (img, vid, target_cam, target_view) in enumerate(val_loader):
+        if n_iter < 5:
+            print(f'Image: {img.shape}, Vid: {vid.shape}, camid: {camid.shape}, camids: {camids.shape}, target_view: {target_view.shape}')
+        else:
+            break
+    
+    end_time = time.perf_counter()
+    elapsed_time = end_time - start_time
+
+    print(f"Elapsed time for loops: {elapsed_time:.6f} seconds")
 

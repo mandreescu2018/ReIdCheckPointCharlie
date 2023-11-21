@@ -133,61 +133,6 @@ def hard_example_mining(dist_mat, labels, return_inds=False):
     return dist_ap, dist_an
 
 
-class TripletLossVariant(object):
-    """Modified from Tong Xiao's open-reid (https://github.com/Cysu/open-reid).
-    Related Triplet Loss theory can be found in paper 'In Defense of the Triplet
-    Loss for Person Re-Identification'."""
-
-    def __init__(self, margin=None, dist_func='euclidean'):
-        self.margin = margin
-        
-        triplet_loss = nn.TripletMarginLoss(margin=1.0, p=2, eps=1e-7)
-        output = triplet_loss(anchor, positive, negative)
-        # if margin is not None:
-        #     self.ranking_loss = nn.MarginRankingLoss(margin=margin)
-        # else:
-        #     self.ranking_loss = nn.SoftMarginLoss()
-
-        if dist_func == 'cosine':
-            self.dist_func = cosine_dist
-        elif dist_func == 'euclidean':
-            self.dist_func = euclidean_dist
-
-    def __call__(self, global_feat, labels, warmup_margin=False, print_data=False, normalize_feature=False, mask=None):
-        if normalize_feature:
-            global_feat = normalize(global_feat, axis=-1)
-        dist_mat = self.dist_func(global_feat, global_feat)
-        dist_ap, dist_an = hard_example_mining(
-            dist_mat, labels)
-
-        y = dist_an.new().resize_as_(dist_an).fill_(1)
-
-        if mask is not None:
-            dist_ap = dist_ap[mask]
-            dist_an = dist_an[mask]
-            y = y[mask]
-            
-        if self.margin is not None:
-            loss = self.ranking_loss(dist_an, dist_ap, y)
-        else:
-            loss = self.ranking_loss(dist_an - dist_ap, y)
-
-        if print_data:
-            print(f'LOSS: {loss.item()}')
-            # precision
-            prec = (dist_an > dist_ap).data.float().mean()
-            print(f'precision: {prec}')
-            # the proportion of triplets that satisfy margin
-            sm = (dist_an > dist_ap + self.margin).data.float().mean()
-            print(f'proportion of triplets that satisfy margin: {sm}')
-            # average (anchor, positive) distance
-            d_ap = dist_ap.data.mean()
-            print(f'AP mean distance: {d_ap}')
-            # average (anchor, negative) distance
-            d_an = dist_an.data.mean()
-            print(f'AN mean distance: {d_an}')
-
-
 class TripletLoss(object):
     """Modified from Tong Xiao's open-reid (https://github.com/Cysu/open-reid).
     Related Triplet Loss theory can be found in paper 'In Defense of the Triplet
