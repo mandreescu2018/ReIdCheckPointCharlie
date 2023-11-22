@@ -41,6 +41,7 @@ if __name__ == "__main__":
           loss_fn=loss_func,
           epochs=cfg.SOLVER.MAX_EPOCHS,
           cfg=cfg,
+          num_query = num_query,
           device=device)
     
     end_time = time.perf_counter()

@@ -56,7 +56,7 @@ def train_step(model: torch.nn.Module,
             acc = (score.max(1)[1] == target).float().mean()
 
         loss_meter.update(loss.item(), img.shape[0])
-        acc_meter.update(acc, 1)
+        acc_meter.update(acc.item(), 1)
 
         if (n_iter + 1) % log_period == 0:
             print(f"Epoch{epoch} Iteration: {n_iter + 1}/{len(dataloader)} Loss: {loss_meter.avg:.3f}, Acc: {acc_meter.avg:.3f}")
@@ -74,11 +74,16 @@ def test_step_reid(model: torch.nn.Module,
               dataloader: torch.utils.data.DataLoader,
               loss_fn: torch.nn.Module,
               cfg,
+              num_query: int,
+              epoch: int,
               device: torch.device):
    # Put model in eval mode
     model.eval()
-    
+    # Setup test loss and test accuracy values
+    test_loss, test_acc = 0, 0
+
     evaluator = R1_mAP_eval(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)
+    evaluator.reset()
 
     for n_iter, (img, vid, camid, camids, target_view, _) in enumerate(dataloader):
         with torch.no_grad():
@@ -86,8 +91,21 @@ def test_step_reid(model: torch.nn.Module,
             
             camids = camids.to(device) if cfg.MODEL.SIE_CAMERA else None
             target_view = target_view.to(device) if cfg.MODEL.SIE_VIEW else None
+            
             feat = model(img, cam_label=camids, view_label=target_view)
+            evaluator.update((feat, vid, camid))
 
+    cmc, mAP, _, _, _, _, _ = evaluator.compute()
+    print("Validation Results - Epoch: {}".format(epoch))
+    print("mAP: {:.1%}".format(mAP))
+    for r in [1, 5, 10]:
+        print("CMC curve, Rank-{:<3}:{:.1%}".format(r, cmc[r - 1]))
+    # logger.info("Validation Results - Epoch: {}".format(epoch))
+    # logger.info("mAP: {:.1%}".format(mAP))
+    # for r in [1, 5, 10]:
+    #     logger.info("CMC curve, Rank-{:<3}:{:.1%}".format(r, cmc[r - 1]))
+    return test_loss, test_acc
+            
 
 def test_step(model: torch.nn.Module,
               dataloader: torch.utils.data.DataLoader,
@@ -156,6 +174,7 @@ def train(model: torch.nn.Module,
           loss_fn: torch.nn.Module,
           epochs: int,
           cfg: yacs.config.CfgNode,
+          num_query: int,
           device: torch.device) -> Dict[str, List]:
   
     """Trains and tests a PyTorch model."""
@@ -168,6 +187,7 @@ def train(model: torch.nn.Module,
     }
 
     for epoch in range(epochs):
+
         train_loss, train_acc = train_step(model=model,
                                             epoch=epoch,
                                             dataloader=train_dataloader,
@@ -179,6 +199,8 @@ def train(model: torch.nn.Module,
             dataloader=test_dataloader,
             loss_fn=loss_fn,
             cfg=cfg,
+            num_query=num_query,
+            epoch=epoch,
             device=device)
     
     # Print out what's happening
