@@ -1,4 +1,4 @@
-utils/__pycache__/*.cpython-38.pyc
+utils/__pycache__/*.*.pyc
 datasets/__pycache__/*.cpython-38.pyc
 loss/__pycache__/*.cpython-38.pyc
 processor/__pycache__/__init__.cpython-38.pyc
