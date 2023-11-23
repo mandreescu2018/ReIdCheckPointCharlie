@@ -5,3 +5,5 @@ processor/__pycache__/__init__.cpython-38.pyc
 processor/__pycache__/engine_reid.cpython-38.pyc
 processor/__pycache__/make_optimizer.cpython-38.pyc
 models/__pycache__/simple_model.cpython-38.pyc
+datasets/transforms/__pycache__/__init__.cpython-38.pyc
+datasets/transforms/__pycache__/random_erasing.cpython-38.pyc

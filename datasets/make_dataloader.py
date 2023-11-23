@@ -3,7 +3,8 @@ import torchvision.transforms as T
 from torch.utils.data import DataLoader
 
 from .dataset_bases import ImageDataset
-from timm.data.random_erasing import RandomErasing
+# from timm.data.random_erasing import RandomErasing
+from .transforms.random_erasing import RandomErasing
 from .sampler import RandomIdentitySampler
 from .dukemtmcreid import DukeMTMCreID
 from .market1501 import Market1501
@@ -47,8 +48,9 @@ def make_dataloader(cfg):
             T.RandomCrop(cfg.INPUT.SIZE_TRAIN),
             T.ToTensor(),
             T.Normalize(mean=cfg.INPUT.PIXEL_MEAN, std=cfg.INPUT.PIXEL_STD),
-            RandomErasing(probability=cfg.INPUT.RE_PROB, mode='pixel', max_count=1, device='cpu'),
+            # RandomErasing(probability=cfg.INPUT.RE_PROB, mode='pixel', max_count=1, device='cpu'),
             # RandomErasing(probability=cfg.INPUT.RE_PROB, mean=cfg.INPUT.PIXEL_MEAN)
+            RandomErasing(probability=cfg.INPUT.RE_PROB, mean=cfg.INPUT.PIXEL_MEAN)
         ])
 
     val_transforms = T.Compose([

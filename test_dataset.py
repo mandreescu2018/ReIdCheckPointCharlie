@@ -2,6 +2,7 @@ import argparse
 from config import cfg
 from datasets import make_dataloader
 import time
+import matplotlib.pyplot as plt
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="ReID Baseline Training")
@@ -31,6 +32,8 @@ if __name__ == "__main__":
     for n_iter, (img, vid, target_cam, target_view) in enumerate(train_loader):
         if n_iter < 5:
             print(f'Image: {img.shape}, Vid: {vid.shape}, targetcam: {target_cam.shape}, target_view: {target_view.shape}')
+            # plt.imshow(img[0].permute(1,2,0))
+            # plt.show()
         else:
             break
             
@@ -39,7 +42,8 @@ if __name__ == "__main__":
     for n_iter, (img, vid, camid, camids, target_view, _) in enumerate(val_loader):
     # for n_iter, (img, vid, target_cam, target_view) in enumerate(val_loader):
         if n_iter < 5:
-            print(f'Image: {img.shape}, Vid: {vid.shape}, camid: {camid.shape}, camids: {camids.shape}, target_view: {target_view.shape}')
+            print(f'Image: {img.shape}, camids: {camids.shape}, target_view: {target_view.shape}')
+
         else:
             break
     
