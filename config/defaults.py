@@ -25,6 +25,8 @@ _C.MODEL.NAME = 'resnet50'
 _C.MODEL.LAST_STRIDE = 1
 # Path to pretrained model of backbone
 _C.MODEL.PRETRAIN_PATH = ''
+# Size of embeddings from backbone
+_C.MODEL.BACKBONE_EMB_SIZE = 2048
 
 # Use ImageNet pretrained model to initialize backbone or use self trained model to initialize the whole model
 # Options: 'imagenet' , 'self' , 'finetune'
@@ -61,6 +63,7 @@ _C.MODEL.STRIDE_SIZE = [16, 16]
 _C.MODEL.SIE_COE = 3.0
 _C.MODEL.SIE_CAMERA = False
 _C.MODEL.SIE_VIEW = False
+
 
 # -----------------------------------------------------------------------------
 # INPUT
@@ -124,8 +127,7 @@ _C.SOLVER.MOMENTUM = 0.9
 _C.SOLVER.MARGIN = 0.3
 # Learning rate of SGD to learn the centers of center loss
 _C.SOLVER.CENTER_LR = 0.5
-# Balanced weight of center loss
-_C.SOLVER.CENTER_LOSS_WEIGHT = 0.0005
+
 
 # Settings of weight decay
 _C.SOLVER.WEIGHT_DECAY = 0.0005
@@ -160,6 +162,14 @@ _C.SOLVER.EVAL_PERIOD = 10
 # This is global, so if we have 8 GPUs and IMS_PER_BATCH = 128, each GPU will
 # contain 16 images per batch
 _C.SOLVER.IMS_PER_BATCH = 64
+
+# Losses weights
+# Weight of classification loss on query vectors
+_C.SOLVER.QUERY_XENT_WEIGHT = 1.0
+# Weight of contrastive loss on query vectors
+_C.SOLVER.QUERY_CONTRASTIVE_WEIGHT = 1.0
+# Balanced weight of center loss
+_C.SOLVER.CENTER_LOSS_WEIGHT = 0.0005
 
 # ---------------------------------------------------------------------------- #
 # TEST

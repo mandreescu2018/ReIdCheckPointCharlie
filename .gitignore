@@ -5,3 +5,12 @@ processor/__pycache__/*.*.pyc
 models/__pycache__/simple_model.cpython-38.pyc
 datasets/transforms/__pycache__/*.*.pyc
 config/__pycache__/*.*.pyc
+models/__pycache__/resnet_orig.cpython-38.pyc
+config/__pycache__/*.pyc
+
+weights/first_model.pth
+20epochs.png
+30epochs.png
+config/__pycache__/defaults.cpython-38.pyc
+weights/epoch20_model.pth
+weights/epoch30_model.pth

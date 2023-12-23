@@ -2,6 +2,7 @@ import torch
 
 from utils.misc import set_seeds
 from loss.triplet_loss import TripletLoss
+from scipy.io import loadmat
 
 if __name__ == "__main__":
     set_seeds()

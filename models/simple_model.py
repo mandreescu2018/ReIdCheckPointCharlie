@@ -84,21 +84,40 @@ class AttentionPool2d(nn.Module):
         return x 
 
 class Bottleneck(nn.Module):
+    # The expansion factor is set to 4, which means that the number of output channels in the final 
+    # convolutional layer is 4 times the number of input channels. 
+    # This expansion allows for richer representations in deeper layers.
+
     expansion = 4
 
     def __init__(self, inplanes, planes, stride=1):
+        """
+        Parameters:
+            inplanes (str): The number of input channels.
+            planes: The number of output channels (before expansion).
+            stride: The stride for the middle convolutional layer (default is 1).
+
+        Returns:
+            None. 
+        """
         super().__init__()
 
         # all conv layers have stride 1. an avgpool is performed after the second convolution when stride > 1
+        # conv1: A 1x1 convolution layer that reduces the number of channels (width) from inplanes to planes.
         self.conv1 = nn.Conv2d(inplanes, planes, 1, bias=False)
+        # Batch normalization layers that normalize the activations after each convolution to stabilize training.
         self.bn1 = nn.BatchNorm2d(planes)
 
+        # conv2: A 3x3 convolution layer with optional striding (stride) to further process the features.
         self.conv2 = nn.Conv2d(planes, planes, 3, padding=1, bias=False)
+        # Batch normalization layers that normalize the activations after each convolution to stabilize training.
         self.bn2 = nn.BatchNorm2d(planes)
 
         self.avgpool = nn.AvgPool2d(stride) if stride > 1 else nn.Identity()
 
+        # conv3: A 1x1 convolution layer that expands the number of channels from planes to planes * expansion.
         self.conv3 = nn.Conv2d(planes, planes * self.expansion, 1, bias=False)
+        # Batch normalization layers that normalize the activations after each convolution to stabilize training.
         self.bn3 = nn.BatchNorm2d(planes * self.expansion)
 
         self.relu = nn.ReLU(inplace=True)
@@ -114,6 +133,10 @@ class Bottleneck(nn.Module):
             ]))
 
     def forward(self, x: torch.Tensor):
+        # The input x is preserved as a residual connection, and it is passed through conv1 and bn1 
+        # if either the stride is not 1 or the number of input channels does not match the number of output channels (due to expansion). 
+        # This is done to ensure that the dimensions of the residual match the output dimensions.
+        # So, identity <=> residual in fact
         identity = x
 
         out = self.relu(self.bn1(self.conv1(x)))
@@ -124,7 +147,10 @@ class Bottleneck(nn.Module):
         if self.downsample is not None:
             identity = self.downsample(x)
 
+        # The output of conv3 is added to the residual. 
+        # This skip connection helps prevent vanishing gradients and allows for easier training of very deep networks.
         out += identity
+        # Another ReLU activation function is applied to the combined output before returning it as the block's output.
         out = self.relu(out)
         return out
 
@@ -188,14 +214,14 @@ class ModifiedResNet(nn.Module):
 
 
 class BuildModel(nn.Module):
-    def __init__(self, num_classes, camera_num, view_num, cfg) -> None:
+    def __init__(self, camera_num, view_num, cfg) -> None:
         super(BuildModel, self).__init__()
         self.model_name = cfg.MODEL.NAME
         self.neck = cfg.MODEL.NECK
         self.neck_feat = cfg.TEST.NECK_FEAT
         self.in_planes = 2048
         self.in_planes_proj = 1024
-        self.num_classes = num_classes
+        self.num_classes = cfg.NUM_CLASSES
         self.camera_num = camera_num
         self.view_num = view_num
 
