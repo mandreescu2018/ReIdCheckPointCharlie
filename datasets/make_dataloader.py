@@ -9,6 +9,7 @@ from .sampler import RandomIdentitySampler
 from .dukemtmcreid import DukeMTMCreID
 from .market1501 import Market1501
 from .msmt17 import MSMT17
+from .combined_dataset import CombinedDataset
 from .sampler_ddp import RandomIdentitySampler_DDP
 import torch.distributed as dist
 # from .occ_duke import OCC_DukeMTMCreID
@@ -19,6 +20,7 @@ __factory = {
     'market1501': Market1501,
     'dukemtmc': DukeMTMCreID,
     'msmt17': MSMT17,
+    'combined': CombinedDataset,
     # 'occ_duke': OCC_DukeMTMCreID,
     # 'veri': VeRi,
     # 'VehicleID': VehicleID

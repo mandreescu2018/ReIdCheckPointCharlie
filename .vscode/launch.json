@@ -5,11 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Test train",
+            "name": "Test train",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/test_train.py",
-            "args": ["--config_file", "configurations/main.yml"],
+            "args": ["--config_file", "configurations/dataset_big.yml"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Test dataset",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/test_dataset.py",
+            "args": ["--config_file", "configurations/dataset_big.yml"],
             "console": "integratedTerminal",
             "justMyCode": true
         }

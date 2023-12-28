@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="ReID Baseline Training")
     parser.add_argument(
-        "--config_file", default="configurations/main.yml", help="path to config file", type=str
+        "--config_file", default="configurations/dataset_big.yml", help="path to config file", type=str
     )
     
     

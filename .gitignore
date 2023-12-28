@@ -14,3 +14,7 @@ weights/first_model.pth
 config/__pycache__/defaults.cpython-38.pyc
 weights/epoch20_model.pth
 weights/epoch30_model.pth
+config/__pycache__/defaults.cpython-38.pyc
+weights/epoch50_model.pth
+weights/epoch80_model.pth
+weights/epoch100_model.pth

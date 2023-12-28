@@ -38,7 +38,6 @@ def train_step(model: torch.nn.Module,
 
         # 2. Calculate  and accumulate loss
         loss = loss_fn(score, feat, target, target_cam)
-        # train_loss += loss.item() 
 
         # 3. Optimizer zero grad
         optimizer.zero_grad()
@@ -66,9 +65,10 @@ def train_step(model: torch.nn.Module,
                 #                     loss_meter.avg, acc_meter.avg, scheduler.get_lr()[0]))
     
     # Adjust metrics to get average loss and accuracy per batch 
-    train_loss = loss_meter.avg
-    train_acc = acc_meter.avg
-    return train_loss, train_acc
+    # train_loss = loss_meter.avg
+    # train_acc = acc_meter.avg
+    return loss_meter.avg, acc_meter.avg
+    # return train_loss, train_acc
 
 def test_step_reid(model: torch.nn.Module,
               dataloader: torch.utils.data.DataLoader,
@@ -85,7 +85,7 @@ def test_step_reid(model: torch.nn.Module,
     evaluator = R1_mAP_eval(num_query, max_rank=50, feat_norm=cfg.TEST.FEAT_NORM)
     evaluator.reset()
 
-    for n_iter, (img, vid, camid, camids, target_view, _) in enumerate(dataloader):
+    for n_iter, (img, pid, camid, camids, target_view, _) in enumerate(dataloader):
         with torch.no_grad():
             img = img.to(device)
             
@@ -93,7 +93,10 @@ def test_step_reid(model: torch.nn.Module,
             target_view = target_view.to(device) if cfg.MODEL.SIE_VIEW else None
             
             feat = model(img, cam_label=camids, view_label=target_view)
-            evaluator.update((feat, vid, camid))
+            # score, feat = model(img, target, cam_label=target_cam, view_label=target_view)
+            # loss = loss_fn(score, feat, target, target_cam)
+
+            evaluator.update((feat, pid, camid))
 
     cmc, mAP, _, _, _, _, _ = evaluator.compute()
     print("Validation Results - Epoch: {}".format(epoch))

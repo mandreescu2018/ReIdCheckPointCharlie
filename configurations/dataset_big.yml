@@ -53,8 +53,8 @@ DATASETS:
 #   NAMES: ('market1501')
 # OUTPUT_DIR: 'out_market_cnn'
 
-  NAMES: ('dukemtmc')
-OUTPUT_DIR: 'out_dukemtmc_cnn'
+  NAMES: ('combined')
+OUTPUT_DIR: 'out_combined'
 
 #   NAMES: ('occ_duke')
 #   ROOT_DIR: ('')
