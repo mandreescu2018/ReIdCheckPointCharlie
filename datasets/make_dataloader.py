@@ -3,8 +3,7 @@ import torchvision.transforms as T
 from torch.utils.data import DataLoader
 
 from .dataset_bases import ImageDataset
-# from timm.data.random_erasing import RandomErasing
-from .transforms.random_erasing import RandomErasing
+from .transforms import Transforms
 from .sampler import RandomIdentitySampler
 from .dukemtmcreid import DukeMTMCreID
 from .market1501 import Market1501
@@ -43,30 +42,17 @@ def val_collate_fn(batch):
     return torch.stack(imgs, dim=0), pids, camids, camids_batch, viewids, img_paths
 
 def make_dataloader(cfg):
-    train_transforms = T.Compose([
-            T.Resize(cfg.INPUT.SIZE_TRAIN, interpolation=3),
-            T.RandomHorizontalFlip(p=cfg.INPUT.PROB),
-            T.Pad(cfg.INPUT.PADDING),
-            T.RandomCrop(cfg.INPUT.SIZE_TRAIN),
-            T.ToTensor(),
-            T.Normalize(mean=cfg.INPUT.PIXEL_MEAN, std=cfg.INPUT.PIXEL_STD),
-            # RandomErasing(probability=cfg.INPUT.RE_PROB, mode='pixel', max_count=1, device='cpu'),
-            # RandomErasing(probability=cfg.INPUT.RE_PROB, mean=cfg.INPUT.PIXEL_MEAN)
-            RandomErasing(probability=cfg.INPUT.RE_PROB, mean=cfg.INPUT.PIXEL_MEAN)
-        ])
-
-    val_transforms = T.Compose([
-        T.Resize(cfg.INPUT.SIZE_TEST),
-        T.ToTensor(),
-        T.Normalize(mean=cfg.INPUT.PIXEL_MEAN, std=cfg.INPUT.PIXEL_STD)
-    ])
+    transf = Transforms(cfg)
+    train_transforms = transf.get_train_transforms()
+    val_transforms = transf.get_test_transforms()
 
     num_workers = cfg.DATALOADER.NUM_WORKERS
 
-    dataset = __factory[cfg.DATASETS.NAMES](root=cfg.DATASETS.ROOT_DIR)
+    dataset = __factory[cfg.DATASETS.NAMES](cfg)
     
     train_set = ImageDataset(dataset.train, train_transforms)
     train_set_normal = ImageDataset(dataset.train, val_transforms)
+    
     num_classes = dataset.num_train_pids
     cam_num = dataset.num_train_cams
     view_num = dataset.num_train_vids

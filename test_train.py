@@ -11,6 +11,7 @@ from processor import save_model
 from loss.build_loss import make_loss
 from utils.display import plot_loss_curves
 from utils.logger import setup_logger
+from solver import create_scheduler
 
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -39,6 +40,7 @@ if __name__ == "__main__":
 
     loss_func, center_criterion = make_loss(cfg, num_classes=num_classes, device=device)
     optimizer, optimizer_center = make_optimizer(cfg, model, center_criterion)
+    scheduler = create_scheduler(cfg, optimizer)
 
     start_time = time.perf_counter()
 
@@ -52,9 +54,10 @@ if __name__ == "__main__":
           num_query = num_query,
           device=device)
     
+    model_name = f"epoch{cfg.SOLVER.MAX_EPOCHS}_model.pth"
     save_model(model=model, 
                target_dir="weights", 
-               model_name="epoch30_model.pth")
+               model_name=model_name)
 
     end_time = time.perf_counter()
 

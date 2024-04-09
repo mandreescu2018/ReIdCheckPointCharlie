@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="ReID Baseline Training")
     parser.add_argument(
-        "--config_file", default="configurations/dataset_big.yml", help="path to config file", type=str
+        "--config_file", default="configurations/main.yml", help="path to config file", type=str
     )
     
     
@@ -25,7 +25,9 @@ if __name__ == "__main__":
     # Calculate and print the elapsed time
     elapsed_time = end_time - start_time
     print(f"Elapsed time: {elapsed_time:.6f} seconds")
-    # print(len(train_loader))
+    # print("len(train_loader)", len(train_loader))
+    print("len(train_loader.dataset)", len(train_loader.dataset))
+    print("len(val_loader.dataset)", len(val_loader.dataset))
 
     start_time = time.perf_counter()
 
@@ -43,6 +45,8 @@ if __name__ == "__main__":
     # for n_iter, (img, vid, target_cam, target_view) in enumerate(val_loader):
         if n_iter < 5:
             print(f'Image: {img.shape}, camids: {camids.shape}, target_view: {target_view.shape}')
+            plt.imshow(img[0].permute(1,2,0))
+            plt.show()
 
         else:
             break

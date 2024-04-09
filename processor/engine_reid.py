@@ -14,7 +14,7 @@ def train_step(model: torch.nn.Module,
                cfg,
                device: torch.device):
     # Put model in train mode
-    model = model.to(device)
+    
     model.train()
 
     log_period = cfg.SOLVER.LOG_PERIOD
@@ -183,6 +183,8 @@ def train(model: torch.nn.Module,
         "test_acc": []
     }
 
+    model.to(device)
+
     for epoch in range(epochs):
 
         train_loss, train_acc = train_step(model=model,
@@ -261,10 +263,10 @@ def do_inference(cfg,
     logger.info("Validation Results ")
     print("Validation Results ")
     logger.info("mAP: {:.1%}".format(mAP))
-    print("mAP: {:.1%}".format(mAP))
-    for r in [1, 5, 10]:
-        logger.info("CMC curve, Rank-{:<3}:{:.1%}".format(r, cmc[r - 1]))
-        print("CMC curve, Rank-{:<3}:{:.1%}".format(r, cmc[r - 1]))
+    print("mAP: {:.3%}".format(mAP))
+    for r in [1, 5, 10, 20]:
+        logger.info("CMC curve, Rank-{:<3}:{:.3%}".format(r, cmc[r - 1]))
+        print("CMC curve, Rank-{:<3}:{:.3%}".format(r, cmc[r - 1]))
     return cmc[0], cmc[4]
   
 

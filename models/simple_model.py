@@ -226,16 +226,20 @@ class BuildModel(nn.Module):
         self.view_num = view_num
 
         self.classifier = nn.Linear(self.in_planes, self.num_classes, bias=False)
-        self.classifier.apply(weights_init_classifier)
+        if cfg.MODEL.PRETRAIN_CHOICE != 'resume':
+            self.classifier.apply(weights_init_classifier)
         self.classifier_proj = nn.Linear(self.in_planes_proj, self.num_classes, bias=False)
-        self.classifier_proj.apply(weights_init_classifier)
+        if cfg.MODEL.PRETRAIN_CHOICE != 'resume':
+            self.classifier_proj.apply(weights_init_classifier)
 
         self.bottleneck = nn.BatchNorm1d(self.in_planes)
         self.bottleneck.bias.requires_grad_(False)
-        self.bottleneck.apply(weights_init_kaiming)
+        if cfg.MODEL.PRETRAIN_CHOICE != 'resume':
+            self.bottleneck.apply(weights_init_kaiming)
         self.bottleneck_proj = nn.BatchNorm1d(self.in_planes_proj)
         self.bottleneck_proj.bias.requires_grad_(False)
-        self.bottleneck_proj.apply(weights_init_kaiming)
+        if cfg.MODEL.PRETRAIN_CHOICE != 'resume':
+            self.bottleneck_proj.apply(weights_init_kaiming)
 
         h_resolution = int((cfg.INPUT.SIZE_TRAIN[0]-16)//cfg.MODEL.STRIDE_SIZE[0] + 1)
         w_resolution = int((cfg.INPUT.SIZE_TRAIN[1]-16)//cfg.MODEL.STRIDE_SIZE[1] + 1)
@@ -252,9 +256,12 @@ class BuildModel(nn.Module):
     
     def forward(self, x, label=None, cam_label= None, view_label=None):
         if self.model_name == 'RN50':
+            output_size = (16, 8)
+
             image_features_last, image_features, image_features_proj = self.image_encoder(x) #B,512  B,128,512
             img_feature_last = nn.functional.avg_pool2d(image_features_last, image_features_last.shape[2:4]).view(x.shape[0], -1) 
-            img_feature = nn.functional.avg_pool2d(image_features, image_features.shape[2:4]).view(x.shape[0], -1) 
+            # img_feature = nn.functional.avg_pool2d(image_features, image_features.shape[2:4]).view(x.shape[0], -1) 
+            img_feature = nn.functional.avg_pool2d(image_features, output_size).view(x.shape[0], -1)
             img_feature_proj = image_features_proj[0]
 
         elif self.model_name == 'ViT-B-16':
@@ -285,6 +292,14 @@ class BuildModel(nn.Module):
                 return torch.cat([feat, feat_proj], dim=1)
             else:
                 return torch.cat([img_feature, img_feature_proj], dim=1)
+            
+    def load_param_resume(self, model_path, optimizer, scheduler):
+        checkpoint = torch.load(model_path)
+        self.load_state_dict(checkpoint['model_state_dict'])
+        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        scheduler.load_state_dict(checkpoint['scheduler_state_dict'])
+        loss = checkpoint['loss']
+        return self, optimizer, checkpoint['epoch'], scheduler, loss
 
 
 

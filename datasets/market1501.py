@@ -14,11 +14,12 @@ class Market1501(BaseImageDataset):
     # identities: 1501 (+1 for background)
     # images: 12936 (train) + 3368 (query) + 15913 (gallery)
     """
-    dataset_dir = 'market1501'
+    # dataset_dir = 'market1501'
 
-    def __init__(self, root='', verbose=True, pid_begin = 0) -> None:
+    def __init__(self, cfg, verbose=True, pid_begin = 0) -> None:
         super().__init__()
-        self.dataset_dir = os.path.join(root, self.dataset_dir)
+        root = cfg.DATASETS.ROOT_DIR        
+        self.dataset_dir = os.path.join(root, cfg.DATASETS.NAMES)
         self.train_dir = os.path.join(self.dataset_dir, 'bounding_box_train')
         self.query_dir = os.path.join(self.dataset_dir, 'query')
         self.gallery_dir = os.path.join(self.dataset_dir, 'bounding_box_test')
