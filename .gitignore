@@ -55,3 +55,5 @@ out_market_cnn/tensorboard/events.out.tfevents.1711811264.DESKTOP-G80VL8D.10776.
 out_market_cnn/tensorboard/events.out.tfevents.1711819328.DESKTOP-G80VL8D.14512.0
 Export/model.onnx
 config/__pycache__/defaults.cpython-38.pyc
+out_dukemtmc_cnn/train_log.txt
+out_market_cnn_resnet/train_log.txt

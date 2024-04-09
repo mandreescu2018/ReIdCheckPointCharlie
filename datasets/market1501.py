@@ -19,7 +19,7 @@ class Market1501(BaseImageDataset):
     def __init__(self, cfg, verbose=True, pid_begin = 0) -> None:
         super().__init__()
         root = cfg.DATASETS.ROOT_DIR        
-        self.dataset_dir = os.path.join(root, cfg.DATASETS.NAMES)
+        self.dataset_dir = os.path.join(root, cfg.DATASETS.DATA_DIR)
         self.train_dir = os.path.join(self.dataset_dir, 'bounding_box_train')
         self.query_dir = os.path.join(self.dataset_dir, 'query')
         self.gallery_dir = os.path.join(self.dataset_dir, 'bounding_box_test')
