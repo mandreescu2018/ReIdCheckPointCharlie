@@ -33,7 +33,7 @@ if __name__ == "__main__":
 
     output_dir = cfg.OUTPUT_DIR
 
-    logger = setup_logger("PiT", output_dir, if_train=True)
+    logger = setup_logger("CheckpointCharlie.train", output_dir, if_train=True)
     logger.info("Using {} as config file".format(args.config_file))
     logger.info("Saving model in the path :{}".format(cfg.OUTPUT_DIR))
     logger.info(args)
@@ -72,6 +72,7 @@ if __name__ == "__main__":
     proc.set_optimizers(optimizer, optimizer_center)
     proc.set_loss_funcs(loss_func, center_criterion)
     proc.scheduler = scheduler
+    proc.logger = logger
 
     cmc, mAP = proc.train()
     logger.info("mAP: {:.3%}".format(mAP))

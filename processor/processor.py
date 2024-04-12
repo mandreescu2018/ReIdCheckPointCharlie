@@ -8,6 +8,7 @@ from utils.meter import AverageMeter
 from utils.metrics import R1_mAP_eval
 from utils import Saver
 
+
 class Processor:
     def __init__(self, cfg,                   
                  model,                 
@@ -52,10 +53,14 @@ class Processor:
         return self._saver
 
     @property
-    def logger(self):
-        if self._logger is None:            
-            self._logger = logging.getLogger("CheckpointCharlie.train")
+    def logger(self):        
         return self._logger
+    
+    @logger.setter
+    def logger(self, value):
+        if not value:
+            raise ValueError("Logger empty.")
+        self._logger = value
 
 
     def set_optimizers(self, optimizer, optimizer_center):
