@@ -220,6 +220,33 @@ def train(model: torch.nn.Module,
     # Return the filled results at the end of the epochs
     return results
 
+from PIL import Image
+from torchvision import transforms
+
+def load_image(image_path):
+    # Load image
+    image = Image.open(image_path).convert('RGB')
+    
+    # Define transformations
+    transform = transforms.Compose([
+        transforms.Resize((256, 128)),  # Assuming the model uses 224x224 inputs
+        transforms.ToTensor(),
+        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    ])
+    
+    # Apply transformations
+    image_tensor = transform(image).unsqueeze(0)  # Add batch dimension
+    return image_tensor
+
+def inference_one_pic(model: torch.nn.Module,                        
+                        imgpath: str,
+                        device: torch.device):
+    model.eval()
+    img = load_image(imgpath)
+    with torch.no_grad():
+        img = img.to(device)
+        feat = model(img)
+    return feat
 
 def do_inference(cfg,
                  model,

@@ -32,12 +32,15 @@ if __name__ == "__main__":
     cfg.NUM_CLASSES = num_classes
     model = BuildModel(camera_num, view_num, cfg)
 
-    summary(model=model, 
+    # #######################
+    resnet_model = model.image_encoder
+    summary(model=resnet_model, 
             input_size=(32, 3, 256, 128),
             col_names=['input_size', 'output_size', 'num_params', 'trainable'],
             col_width=20,
             row_settings=['var_names'])
-
+    # exit(0)
+    # #######################
     loss_func, center_criterion = make_loss(cfg, num_classes=num_classes, device=device)
     optimizer, optimizer_center = make_optimizer(cfg, model, center_criterion)
     scheduler = create_scheduler(cfg, optimizer)

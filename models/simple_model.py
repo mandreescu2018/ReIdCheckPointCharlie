@@ -83,6 +83,8 @@ class AttentionPool2d(nn.Module):
 
         return x 
 
+# model = Bottleneck(inplanes=64,
+#                        planes=751)
 class Bottleneck(nn.Module):
     # The expansion factor is set to 4, which means that the number of output channels in the final 
     # convolutional layer is 4 times the number of input channels. 
@@ -168,9 +170,9 @@ class ModifiedResNet(nn.Module):
         self.input_resolution = input_resolution
 
         # the 3-layer stem
-        self.conv1 = nn.Conv2d(3, width // 2, kernel_size=3, stride=2, padding=1, bias=False)
+        self.conv1 = nn.Conv2d(in_channels=3, out_channels=width // 2, kernel_size=3, stride=2, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(width // 2)
-        self.conv2 = nn.Conv2d(width // 2, width // 2, kernel_size=3, padding=1, bias=False)
+        self.conv2 = nn.Conv2d(in_channels=width // 2, out_channels=width // 2, kernel_size=3, padding=1, bias=False)
         self.bn2 = nn.BatchNorm2d(width // 2)
         self.conv3 = nn.Conv2d(width // 2, width, kernel_size=3, padding=1, bias=False)
         self.bn3 = nn.BatchNorm2d(width)
@@ -244,7 +246,7 @@ class BuildModel(nn.Module):
         h_resolution = int((cfg.INPUT.SIZE_TRAIN[0]-16)//cfg.MODEL.STRIDE_SIZE[0] + 1)
         w_resolution = int((cfg.INPUT.SIZE_TRAIN[1]-16)//cfg.MODEL.STRIDE_SIZE[1] + 1)
 
-        weights = torchvision.models.ResNet50_Weights.DEFAULT # DEFAULT mean the best available
+        # weights = torchvision.models.ResNet50_Weights.DEFAULT # DEFAULT mean the best available
         # resnet_model = torchvision.models.resnet50(weights=weights)
         resnet_model = ModifiedResNet(layers=(3, 4, 6, 3),
                 output_dim=1024,

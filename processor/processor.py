@@ -111,7 +111,8 @@ class Processor:
         for n_iter, (img, pid, target_cam, target_view) in enumerate(self.train_loader):
             
             self.optimizer.zero_grad()
-            self.optimizer_center.zero_grad()
+            if self.optimizer_center:
+                self.optimizer_center.zero_grad()
 
             img = img.to(self.device)
             target = pid.to(self.device)
@@ -186,6 +187,7 @@ class Processor:
         self.epochs += self.start_epoch
         
         for epoch in range(self.start_epoch+1, self.epochs+1):
+            self._scheduler.step()
             self.current_epoch = epoch
             start_time = time.time()
             

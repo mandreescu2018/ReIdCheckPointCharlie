@@ -7,10 +7,17 @@ from utils.reranking import re_ranking
 def euclidean_distance(qf, gf):
     m = qf.shape[0]
     n = gf.shape[0]
-    dist_mat = torch.pow(qf, 2).sum(dim=1, keepdim=True).expand(m, n) + \
-               torch.pow(gf, 2).sum(dim=1, keepdim=True).expand(n, m).t()
-    dist_mat.addmm_(qf, gf.t(), beta=1, alpha=-2)
-    return dist_mat.cpu().numpy()
+    dist_mat = np.power(qf, 2).sum(axis=1, keepdims=True).repeat(n, axis=1) + \
+            np.power(gf, 2).sum(axis=1, keepdims=True).repeat(m, axis=1).T
+    dist_mat += -2 * np.dot(qf, gf.T)
+    return dist_mat
+
+    # m = qf.shape[0]
+    # n = gf.shape[0]
+    # dist_mat = torch.pow(qf, 2).sum(dim=1, keepdim=True).expand(m, n) + \
+    #            torch.pow(gf, 2).sum(dim=1, keepdim=True).expand(n, m).t()
+    # dist_mat.addmm_(qf, gf.t(), beta=1, alpha=-2)
+    # return dist_mat.cpu().numpy()
 
 def cosine_similarity(qf, gf):
     epsilon = 0.00001
@@ -107,10 +114,13 @@ class R1_mAP_eval():
         self.camids.extend(np.asarray(camid))
 
     def compute(self):  # called after each epoch
-        feats = torch.cat(self.feats, dim=0)
+        # feats = torch.cat(self.feats, dim=0)
+        feats = np.concatenate(self.feats, axis=0)
         if self.feat_norm:
             print("The test feature is normalized")
-            feats = torch.nn.functional.normalize(feats, dim=1, p=2)  # along channel
+            norm = np.linalg.norm(feats, ord=2, axis=1, keepdims=True)
+            feats = feats / norm  # normalize along channel
+            # feats = torch.nn.functional.normalize(feats, dim=1, p=2)  # along channel
         # query
         qf = feats[:self.num_query]
         q_pids = np.asarray(self.pids[:self.num_query])
