@@ -67,3 +67,5 @@ models/HA-CNN.PNG
 Export/market_model.onnx
 config/__pycache__/defaults.cpython-38.pyc
 out_market_mobilenet/train_log.txt
+config/__pycache__/defaults.cpython-38.pyc
+out_market_mobilenet_again/tensorboard/events.out.tfevents.1721759027.DESKTOP-G80VL8D.988.0

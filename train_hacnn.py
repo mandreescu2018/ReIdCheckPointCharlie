@@ -15,8 +15,7 @@ from utils.logger import setup_logger
 from solver import create_scheduler
 from utils import Saver, setup_logger
 from utils.misc import set_seeds
-from models.model_maker import get_model
-from models.mobilenetV2 import MobileNetV2
+from models.model_selector import get_model
 from loss.softmax_loss import CrossEntropyLabelSmooth
 
 

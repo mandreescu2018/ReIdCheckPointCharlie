@@ -10,7 +10,6 @@ from datasets.make_dataloader import make_dataloader
 from models.simple_model import BuildModel
 from models.model_selector import get_model
 from processor.engine_reid import do_inference
-from processor.processor import Processor
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 

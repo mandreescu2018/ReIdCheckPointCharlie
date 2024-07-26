@@ -1,3 +1,5 @@
+import numpy as np
+
 import torch
 from utils.misc import set_seeds
 from loss.center_loss import CenterLoss
@@ -9,7 +11,12 @@ if __name__ == '__main__':
 
     center_loss = CenterLoss(device=device)    
     features = torch.rand(16, 2048).to(device)
+    features_np = features.cpu().detach().numpy()
+    # save array in a file
+    np.save('features.npy', features_np)
+    # np.save('vector_array_all.npy', vector_array)        
     targets = torch.Tensor([0, 1, 2, 3, 2, 3, 1, 4, 5, 3, 2, 1, 0, 0, 5, 4]).long().to(device)
         
     loss = center_loss(features, targets)
     print(loss)
+    print(features)

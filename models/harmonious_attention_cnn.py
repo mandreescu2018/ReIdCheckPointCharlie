@@ -158,6 +158,7 @@ class ChannelAttn(nn.Module):
     def forward(self, x):
         # squeeze operation (global average pooling)
         x = F.avg_pool2d(x, x.size()[2:])
+        # x = F.adaptive_avg_pool2d(x, (1, 1))
         # excitation operation (2 conv layers)
         x = self.conv1(x)
         x = self.conv2(x)
@@ -182,7 +183,9 @@ class HardAttn(nn.Module):
 
     def forward(self, x):
         # squeeze operation (global average pooling)
-        x = F.avg_pool2d(x, x.size()[2:]).view(x.size(0), x.size(1))
+        x = F.avg_pool2d(x, x.size()[2:])
+        # x = F.adaptive_avg_pool2d(x, (1, 1))
+        x = x.view(x.size(0), x.size(1))
         # predict transformation parameters
         theta = torch.tanh(self.fc(x))
         theta = theta.view(-1, 4, 2)

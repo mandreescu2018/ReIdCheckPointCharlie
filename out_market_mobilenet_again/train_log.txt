@@ -1,0 +1,111 @@
+2024-07-23 21:20:48,384 CheckpointCharlie.train_mobilenet INFO: Using configurations/mobilenet.yml as config file
+2024-07-23 21:20:48,385 CheckpointCharlie.train_mobilenet INFO: Saving model in the path :out_market_mobilenet_again
+2024-07-23 21:20:48,386 CheckpointCharlie.train_mobilenet INFO: Namespace(config_file='configurations/mobilenet.yml')
+2024-07-23 21:21:22,804 CheckpointCharlie.train_mobilenet INFO: Epoch[1] Iteration[50/372]loss: 6.684, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:21:45,549 CheckpointCharlie.train_mobilenet INFO: Epoch[1] Iteration[100/372]loss: 6.694, Acc: 0.001, Base Lr: 1.00e-03
+2024-07-23 21:22:07,999 CheckpointCharlie.train_mobilenet INFO: Epoch[1] Iteration[150/372]loss: 6.697, Acc: 0.001, Base Lr: 1.00e-03
+2024-07-23 21:22:30,424 CheckpointCharlie.train_mobilenet INFO: Epoch[1] Iteration[200/372]loss: 6.699, Acc: 0.001, Base Lr: 1.00e-03
+2024-07-23 21:22:52,957 CheckpointCharlie.train_mobilenet INFO: Epoch[1] Iteration[250/372]loss: 6.690, Acc: 0.001, Base Lr: 1.00e-03
+2024-07-23 21:23:15,583 CheckpointCharlie.train_mobilenet INFO: Epoch[1] Iteration[300/372]loss: 6.680, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:23:38,027 CheckpointCharlie.train_mobilenet INFO: Epoch[1] Iteration[350/372]loss: 6.648, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:24:42,059 CheckpointCharlie.train_mobilenet INFO: Epoch 1 done. Time per batch: 0.620[s] Speed: 51.6[samples/s]
+2024-07-23 21:28:45,022 CheckpointCharlie.train_mobilenet INFO: Validation Results - Epoch: 1
+2024-07-23 21:28:45,022 CheckpointCharlie.train_mobilenet INFO: mAP: 0.302%
+2024-07-23 21:28:45,023 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-1  :0.386%
+2024-07-23 21:28:45,023 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-5  :1.366%
+2024-07-23 21:28:45,023 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-10 :2.197%
+2024-07-23 21:28:45,024 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-20 :4.068%
+2024-07-23 21:28:57,059 CheckpointCharlie.train_mobilenet INFO: Epoch[2] Iteration[50/372]loss: 6.704, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:29:07,889 CheckpointCharlie.train_mobilenet INFO: Epoch[2] Iteration[100/372]loss: 6.701, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:29:18,485 CheckpointCharlie.train_mobilenet INFO: Epoch[2] Iteration[150/372]loss: 6.678, Acc: 0.004, Base Lr: 1.00e-03
+2024-07-23 21:29:29,123 CheckpointCharlie.train_mobilenet INFO: Epoch[2] Iteration[200/372]loss: 6.646, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:29:40,127 CheckpointCharlie.train_mobilenet INFO: Epoch[2] Iteration[250/372]loss: 6.624, Acc: 0.004, Base Lr: 1.00e-03
+2024-07-23 21:29:50,467 CheckpointCharlie.train_mobilenet INFO: Epoch[2] Iteration[300/372]loss: 6.597, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:30:00,504 CheckpointCharlie.train_mobilenet INFO: Epoch[2] Iteration[350/372]loss: 6.552, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:30:04,359 CheckpointCharlie.train_mobilenet INFO: Epoch 2 done. Time per batch: 0.215[s] Speed: 149.0[samples/s]
+2024-07-23 21:30:14,430 CheckpointCharlie.train_mobilenet INFO: Epoch[3] Iteration[50/372]loss: 6.787, Acc: 0.001, Base Lr: 1.00e-03
+2024-07-23 21:30:24,106 CheckpointCharlie.train_mobilenet INFO: Epoch[3] Iteration[100/372]loss: 6.699, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:30:33,770 CheckpointCharlie.train_mobilenet INFO: Epoch[3] Iteration[150/372]loss: 6.667, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:30:43,420 CheckpointCharlie.train_mobilenet INFO: Epoch[3] Iteration[200/372]loss: 6.638, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:30:52,890 CheckpointCharlie.train_mobilenet INFO: Epoch[3] Iteration[250/372]loss: 6.605, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:31:02,522 CheckpointCharlie.train_mobilenet INFO: Epoch[3] Iteration[300/372]loss: 6.562, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:31:12,642 CheckpointCharlie.train_mobilenet INFO: Epoch[3] Iteration[350/372]loss: 6.500, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:31:16,249 CheckpointCharlie.train_mobilenet INFO: Epoch 3 done. Time per batch: 0.195[s] Speed: 164.3[samples/s]
+2024-07-23 21:31:26,221 CheckpointCharlie.train_mobilenet INFO: Epoch[4] Iteration[50/372]loss: 6.766, Acc: 0.001, Base Lr: 1.00e-03
+2024-07-23 21:31:35,890 CheckpointCharlie.train_mobilenet INFO: Epoch[4] Iteration[100/372]loss: 6.700, Acc: 0.001, Base Lr: 1.00e-03
+2024-07-23 21:31:45,551 CheckpointCharlie.train_mobilenet INFO: Epoch[4] Iteration[150/372]loss: 6.635, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:31:55,212 CheckpointCharlie.train_mobilenet INFO: Epoch[4] Iteration[200/372]loss: 6.596, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:32:04,738 CheckpointCharlie.train_mobilenet INFO: Epoch[4] Iteration[250/372]loss: 6.554, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:32:14,182 CheckpointCharlie.train_mobilenet INFO: Epoch[4] Iteration[300/372]loss: 6.515, Acc: 0.004, Base Lr: 1.00e-03
+2024-07-23 21:32:23,722 CheckpointCharlie.train_mobilenet INFO: Epoch[4] Iteration[350/372]loss: 6.447, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:32:27,323 CheckpointCharlie.train_mobilenet INFO: Epoch 4 done. Time per batch: 0.193[s] Speed: 166.1[samples/s]
+2024-07-23 21:32:37,127 CheckpointCharlie.train_mobilenet INFO: Epoch[5] Iteration[50/372]loss: 6.695, Acc: 0.000, Base Lr: 1.00e-03
+2024-07-23 21:32:46,575 CheckpointCharlie.train_mobilenet INFO: Epoch[5] Iteration[100/372]loss: 6.627, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:32:56,120 CheckpointCharlie.train_mobilenet INFO: Epoch[5] Iteration[150/372]loss: 6.587, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:33:05,534 CheckpointCharlie.train_mobilenet INFO: Epoch[5] Iteration[200/372]loss: 6.550, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:33:15,069 CheckpointCharlie.train_mobilenet INFO: Epoch[5] Iteration[250/372]loss: 6.506, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:33:24,512 CheckpointCharlie.train_mobilenet INFO: Epoch[5] Iteration[300/372]loss: 6.459, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:33:33,939 CheckpointCharlie.train_mobilenet INFO: Epoch[5] Iteration[350/372]loss: 6.389, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:33:37,160 CheckpointCharlie.train_mobilenet INFO: Epoch 5 done. Time per batch: 0.190[s] Speed: 168.2[samples/s]
+2024-07-23 21:34:53,902 CheckpointCharlie.train_mobilenet INFO: Validation Results - Epoch: 5
+2024-07-23 21:34:53,903 CheckpointCharlie.train_mobilenet INFO: mAP: 0.739%
+2024-07-23 21:34:53,903 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-1  :1.217%
+2024-07-23 21:34:53,904 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-5  :4.483%
+2024-07-23 21:34:53,904 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-10 :7.660%
+2024-07-23 21:34:53,905 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-20 :12.678%
+2024-07-23 21:35:03,895 CheckpointCharlie.train_mobilenet INFO: Epoch[6] Iteration[50/372]loss: 6.639, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:35:13,425 CheckpointCharlie.train_mobilenet INFO: Epoch[6] Iteration[100/372]loss: 6.556, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:35:22,725 CheckpointCharlie.train_mobilenet INFO: Epoch[6] Iteration[150/372]loss: 6.521, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:35:32,085 CheckpointCharlie.train_mobilenet INFO: Epoch[6] Iteration[200/372]loss: 6.483, Acc: 0.003, Base Lr: 1.00e-03
+2024-07-23 21:35:41,439 CheckpointCharlie.train_mobilenet INFO: Epoch[6] Iteration[250/372]loss: 6.437, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:35:50,779 CheckpointCharlie.train_mobilenet INFO: Epoch[6] Iteration[300/372]loss: 6.384, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:36:00,068 CheckpointCharlie.train_mobilenet INFO: Epoch[6] Iteration[350/372]loss: 6.316, Acc: 0.007, Base Lr: 1.00e-03
+2024-07-23 21:36:03,678 CheckpointCharlie.train_mobilenet INFO: Epoch 6 done. Time per batch: 0.189[s] Speed: 169.4[samples/s]
+2024-07-23 21:36:13,248 CheckpointCharlie.train_mobilenet INFO: Epoch[7] Iteration[50/372]loss: 6.617, Acc: 0.007, Base Lr: 1.00e-03
+2024-07-23 21:36:22,566 CheckpointCharlie.train_mobilenet INFO: Epoch[7] Iteration[100/372]loss: 6.555, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:36:32,031 CheckpointCharlie.train_mobilenet INFO: Epoch[7] Iteration[150/372]loss: 6.472, Acc: 0.007, Base Lr: 1.00e-03
+2024-07-23 21:36:41,482 CheckpointCharlie.train_mobilenet INFO: Epoch[7] Iteration[200/372]loss: 6.427, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:36:50,800 CheckpointCharlie.train_mobilenet INFO: Epoch[7] Iteration[250/372]loss: 6.374, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:37:00,153 CheckpointCharlie.train_mobilenet INFO: Epoch[7] Iteration[300/372]loss: 6.329, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:37:09,542 CheckpointCharlie.train_mobilenet INFO: Epoch[7] Iteration[350/372]loss: 6.252, Acc: 0.008, Base Lr: 1.00e-03
+2024-07-23 21:37:13,376 CheckpointCharlie.train_mobilenet INFO: Epoch 7 done. Time per batch: 0.188[s] Speed: 169.9[samples/s]
+2024-07-23 21:37:23,007 CheckpointCharlie.train_mobilenet INFO: Epoch[8] Iteration[50/372]loss: 6.501, Acc: 0.007, Base Lr: 1.00e-03
+2024-07-23 21:37:32,510 CheckpointCharlie.train_mobilenet INFO: Epoch[8] Iteration[100/372]loss: 6.415, Acc: 0.007, Base Lr: 1.00e-03
+2024-07-23 21:37:41,842 CheckpointCharlie.train_mobilenet INFO: Epoch[8] Iteration[150/372]loss: 6.358, Acc: 0.009, Base Lr: 1.00e-03
+2024-07-23 21:37:51,173 CheckpointCharlie.train_mobilenet INFO: Epoch[8] Iteration[200/372]loss: 6.316, Acc: 0.008, Base Lr: 1.00e-03
+2024-07-23 21:38:00,725 CheckpointCharlie.train_mobilenet INFO: Epoch[8] Iteration[250/372]loss: 6.276, Acc: 0.009, Base Lr: 1.00e-03
+2024-07-23 21:38:10,090 CheckpointCharlie.train_mobilenet INFO: Epoch[8] Iteration[300/372]loss: 6.234, Acc: 0.009, Base Lr: 1.00e-03
+2024-07-23 21:38:19,567 CheckpointCharlie.train_mobilenet INFO: Epoch[8] Iteration[350/372]loss: 6.169, Acc: 0.012, Base Lr: 1.00e-03
+2024-07-23 21:38:23,653 CheckpointCharlie.train_mobilenet INFO: Epoch 8 done. Time per batch: 0.190[s] Speed: 168.5[samples/s]
+2024-07-23 21:38:33,333 CheckpointCharlie.train_mobilenet INFO: Epoch[9] Iteration[50/372]loss: 6.511, Acc: 0.004, Base Lr: 1.00e-03
+2024-07-23 21:38:42,639 CheckpointCharlie.train_mobilenet INFO: Epoch[9] Iteration[100/372]loss: 6.401, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:38:51,970 CheckpointCharlie.train_mobilenet INFO: Epoch[9] Iteration[150/372]loss: 6.328, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:39:01,432 CheckpointCharlie.train_mobilenet INFO: Epoch[9] Iteration[200/372]loss: 6.276, Acc: 0.007, Base Lr: 1.00e-03
+2024-07-23 21:39:10,724 CheckpointCharlie.train_mobilenet INFO: Epoch[9] Iteration[250/372]loss: 6.227, Acc: 0.009, Base Lr: 1.00e-03
+2024-07-23 21:39:20,055 CheckpointCharlie.train_mobilenet INFO: Epoch[9] Iteration[300/372]loss: 6.175, Acc: 0.010, Base Lr: 1.00e-03
+2024-07-23 21:39:29,424 CheckpointCharlie.train_mobilenet INFO: Epoch[9] Iteration[350/372]loss: 6.103, Acc: 0.014, Base Lr: 1.00e-03
+2024-07-23 21:39:33,152 CheckpointCharlie.train_mobilenet INFO: Epoch 9 done. Time per batch: 0.188[s] Speed: 170.4[samples/s]
+2024-07-23 21:39:42,660 CheckpointCharlie.train_mobilenet INFO: Epoch[10] Iteration[50/372]loss: 6.415, Acc: 0.002, Base Lr: 1.00e-03
+2024-07-23 21:39:52,221 CheckpointCharlie.train_mobilenet INFO: Epoch[10] Iteration[100/372]loss: 6.337, Acc: 0.005, Base Lr: 1.00e-03
+2024-07-23 21:40:01,934 CheckpointCharlie.train_mobilenet INFO: Epoch[10] Iteration[150/372]loss: 6.255, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:40:11,257 CheckpointCharlie.train_mobilenet INFO: Epoch[10] Iteration[200/372]loss: 6.212, Acc: 0.008, Base Lr: 1.00e-03
+2024-07-23 21:40:20,618 CheckpointCharlie.train_mobilenet INFO: Epoch[10] Iteration[250/372]loss: 6.173, Acc: 0.009, Base Lr: 1.00e-03
+2024-07-23 21:40:30,013 CheckpointCharlie.train_mobilenet INFO: Epoch[10] Iteration[300/372]loss: 6.118, Acc: 0.011, Base Lr: 1.00e-03
+2024-07-23 21:40:39,803 CheckpointCharlie.train_mobilenet INFO: Epoch[10] Iteration[350/372]loss: 6.052, Acc: 0.014, Base Lr: 1.00e-03
+2024-07-23 21:40:43,204 CheckpointCharlie.train_mobilenet INFO: Epoch 10 done. Time per batch: 0.190[s] Speed: 168.1[samples/s]
+2024-07-23 21:41:58,996 CheckpointCharlie.train_mobilenet INFO: Validation Results - Epoch: 10
+2024-07-23 21:41:58,996 CheckpointCharlie.train_mobilenet INFO: mAP: 1.860%
+2024-07-23 21:41:58,997 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-1  :4.038%
+2024-07-23 21:41:58,997 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-5  :12.114%
+2024-07-23 21:41:58,998 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-10 :18.171%
+2024-07-23 21:41:58,998 CheckpointCharlie.train_mobilenet INFO: CMC curve, Rank-20 :25.980%
+2024-07-23 21:42:08,881 CheckpointCharlie.train_mobilenet INFO: Epoch[11] Iteration[50/372]loss: 6.422, Acc: 0.011, Base Lr: 1.00e-03
+2024-07-23 21:42:18,287 CheckpointCharlie.train_mobilenet INFO: Epoch[11] Iteration[100/372]loss: 6.232, Acc: 0.013, Base Lr: 1.00e-03
+2024-07-23 21:42:27,591 CheckpointCharlie.train_mobilenet INFO: Epoch[11] Iteration[150/372]loss: 6.191, Acc: 0.013, Base Lr: 1.00e-03
+2024-07-23 21:42:36,941 CheckpointCharlie.train_mobilenet INFO: Epoch[11] Iteration[200/372]loss: 6.145, Acc: 0.013, Base Lr: 1.00e-03
+2024-07-23 21:42:46,234 CheckpointCharlie.train_mobilenet INFO: Epoch[11] Iteration[250/372]loss: 6.102, Acc: 0.015, Base Lr: 1.00e-03
+2024-07-23 21:42:55,727 CheckpointCharlie.train_mobilenet INFO: Epoch[11] Iteration[300/372]loss: 6.055, Acc: 0.016, Base Lr: 1.00e-03
+2024-07-23 21:43:05,077 CheckpointCharlie.train_mobilenet INFO: Epoch[11] Iteration[350/372]loss: 5.980, Acc: 0.018, Base Lr: 1.00e-03
+2024-07-23 21:43:08,635 CheckpointCharlie.train_mobilenet INFO: Epoch 11 done. Time per batch: 0.188[s] Speed: 169.8[samples/s]
+2024-07-23 21:43:18,215 CheckpointCharlie.train_mobilenet INFO: Epoch[12] Iteration[50/372]loss: 6.387, Acc: 0.006, Base Lr: 1.00e-03
+2024-07-23 21:43:27,591 CheckpointCharlie.train_mobilenet INFO: Epoch[12] Iteration[100/372]loss: 6.238, Acc: 0.009, Base Lr: 1.00e-03

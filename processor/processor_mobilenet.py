@@ -46,14 +46,13 @@ class ProcessorMobileNet(ProcessorBase):
         self.tri_loss_meter.reset()
     
     def train_step(self):
-        
+        super(ProcessorMobileNet, self).train_step()
         # self.model.train()
 
         for n_iter, (img, pid, _, _) in enumerate(self.train_loader):
             
             self.optimizer.zero_grad()
             
-
             img = img.to(self.device)
             label = pid.to(self.device)
 
@@ -80,7 +79,8 @@ class ProcessorMobileNet(ProcessorBase):
             
             
     def test_step(self):
-        self.model.eval()
+        super(ProcessorMobileNet, self).test_step()
+        # self.model.eval()
         for n_iter, (img, pid, camid, camids, target_view, _) in enumerate(self.val_loader):
             
             with torch.no_grad():

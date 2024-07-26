@@ -23,6 +23,15 @@
             "justMyCode": true
         },
         {
+            "name": "Train HACNN",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/train_hacnn.py",
+            "args": ["--config_file", "configurations/hacnn.yml"],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Test dataset",
             "type": "debugpy",
             "request": "launch",

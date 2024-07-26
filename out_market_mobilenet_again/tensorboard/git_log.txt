@@ -1,0 +1,119 @@
+commit f852009cf623068dff02a20a5416fa5b16cba921
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Sat Jun 1 21:03:29 2024 +0300
+
+    hacnn
+
+commit 1ff16b7c193e3b78f3c3df5a2f97a1cf49145a00
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Sat Jun 1 18:27:00 2024 +0300
+
+    last updates
+
+commit adf1d2f64e5c56f1e35e9e7238c960d80395b82f
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Fri Apr 12 21:15:23 2024 +0300
+
+    gitignore
+
+commit 1b66d136a024c5e0b78bbed5e99c10e9419a7219
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Fri Apr 12 21:13:51 2024 +0300
+
+    correct logger
+
+commit f07d3153de3b4598aa64e1108f132868e3c66ea2
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Tue Apr 9 21:06:37 2024 +0300
+
+    new update
+
+commit aeace0f436ea3c19adcf9ad1b06988f8ef2f0d9b
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Tue Apr 9 20:38:03 2024 +0300
+
+    updates
+
+commit 85fceb73ddd87e4a2a5e61b710f6703aa1aa20a9
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Thu Dec 28 22:05:00 2023 +0200
+
+    christmas commit
+
+commit 546c6bfc92beb9282ee92b494ba36fd1fce821a0
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Sat Dec 23 20:18:21 2023 +0200
+
+    another commit
+
+commit 1d3401cad0f28062a2704e20af312d7bd54274d8
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Thu Nov 23 21:01:02 2023 +0200
+
+    test again gitignore
+
+commit 6c230118bb3f47bbbf2ef129dbba02da00362421
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Thu Nov 23 20:58:17 2023 +0200
+
+    test gitignore
+
+commit 6e9a677667033b35174a4235465fc6716ad799e1
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Thu Nov 23 20:56:01 2023 +0200
+
+    gitignore
+
+commit a28d4b83d3f9bedd0df427a1addc6ef5de96ebfa
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Thu Nov 23 20:26:19 2023 +0200
+
+    11.23
+
+commit 70b8b6142adb052d7338970f0b08cbaba2fb9c2c
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Wed Nov 22 21:25:17 2023 +0200
+
+    11.22
+
+commit 4c656f6782fee0a8a43fcd7b68b526d44aa5e173
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Tue Nov 21 19:41:40 2023 +0200
+
+    21nov
+
+commit d9d04495ea7040c74847feef4ae115211a5fe021
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Mon Nov 13 18:42:01 2023 +0200
+
+    add more sources
+
+commit 9f96e238a06c21cd9bf7a9c1c9137540f6aabb0c
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Fri Nov 10 20:19:05 2023 +0200
+
+    add dataloadres
+
+commit 1d144148558b8d5b323bc232bb46b4754b44bc5e
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Thu Nov 9 20:12:17 2023 +0200
+
+    losses
+
+commit 9843efb49ed4c0c2e27d0c0bac3459824a136c72
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Sat Nov 4 19:22:03 2023 +0200
+
+    First commit
+
+commit ae886630859b06b89d72f92d0354dddd370a8839
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Fri Nov 3 08:47:31 2023 +0200
+
+    Create README.md
+
+commit 4f26d2f438186f1dfc90702381ad66aa7ed8b304
+Author: Mihai Traian Andreescu <45654108+mandreescu2018@users.noreply.github.com>
+Date:   Fri Nov 3 08:47:16 2023 +0200
+
+    Create main.py

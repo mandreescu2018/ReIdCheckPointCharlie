@@ -6,7 +6,7 @@ import time
 from config import cfg
 from datasets.make_dataloader import make_dataloader
 from models import get_model
-from processor.processor_mobilenet import Processor
+from processor.processor_selector import get_processor
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -15,7 +15,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="ReID Baseline Training")
     parser.add_argument(
-        "--config_file", default="configurations/hacnn.yml", help="path to config file", type=str
+        "--config_file", default="configurations/mobilenet.yml", help="path to config file", type=str
     )
     
     args = parser.parse_args()
@@ -35,8 +35,11 @@ if __name__ == "__main__":
             col_width=20,
             row_settings=['var_names'])
     
+    processor = get_processor(cfg)
+
     start = time.perf_counter()
-    proc = Processor(cfg, 
+    
+    proc = processor(cfg, 
                      model,
                      num_query,
                      train_loader,

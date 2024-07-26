@@ -1,5 +1,6 @@
 MODEL:
-  PRETRAIN_CHOICE: 'imagenet'
+  PRETRAIN_CHOICE: ''
+  PRETRAIN_PATH: './out_market_cnn/RN50_resume_105.pth'
   METRIC_LOSS_TYPE: 'triplet'
   IF_LABELSMOOTH: 'on'
   IF_WITH_CENTER: 'no'
@@ -24,15 +25,15 @@ DATALOADER:
 SOLVER:
   IMS_PER_BATCH: 32
   OPTIMIZER_NAME: "Adam"
-  BASE_LR: 0.00025
+  BASE_LR: 0.0015
   WARMUP_METHOD: 'linear'
   WARMUP_ITERS: 10
   WARMUP_FACTOR: 0.01  
   WEIGHT_DECAY:  0.0005
   WEIGHT_DECAY_BIAS: 0.0005
   LARGE_FC_LR: False
-  MAX_EPOCHS: 30
-  CHECKPOINT_PERIOD: 1
+  MAX_EPOCHS: 100
+  CHECKPOINT_PERIOD: 5
   LOG_PERIOD: 50
   EVAL_PERIOD: 5
   BIAS_LR_FACTOR: 2
@@ -44,17 +45,19 @@ TEST:
   EVAL: True
   IMS_PER_BATCH: 64
   RE_RANKING: False
-  WEIGHT: 'weights/epoch30_model.pth'
+  # WEIGHT: 'weights/epoch100_dukemtmc.pth'
+  WEIGHT: 'out_market_cnn/RN50_resume_105.pth'
   NECK_FEAT: 'before'
   FEAT_NORM: 'yes'
 
 DATASETS:
+  NAMES: ('market1501')
+  DATA_DIR: ('market1501')
+  ROOT_DIR: ('D:\datasets')
+OUTPUT_DIR: 'out_market_cnn_resnet'
 
-#   NAMES: ('market1501')
-# OUTPUT_DIR: 'out_market_cnn'
-
-  NAMES: ('dukemtmc')
-OUTPUT_DIR: 'out_dukemtmc_cnn'
+#   NAMES: ('dukemtmc')
+# OUTPUT_DIR: 'out_dukemtmc_cnn'
 
 #   NAMES: ('occ_duke')
 #   ROOT_DIR: ('')

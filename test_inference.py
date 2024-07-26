@@ -9,6 +9,7 @@ from models.simple_model import BuildModel
 from models.mobilenetV2 import MobileNetV2
 from processor.engine_reid import do_inference, inference_one_pic
 import numpy as np
+from utils.metrics import euclidean_distance
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -52,18 +53,7 @@ if __name__ == "__main__":
 
     model.load_state_dict(checkpoint['model_state_dict'])
 
-    # summary(model=model, 
-    #         input_size=(32, 3, 256, 128),
-    #         col_names=['input_size', 'output_size', 'num_params', 'trainable'],
-    #         col_width=20,
-    #         row_settings=['var_names'])
     
-    # img_path1 = 'D:/datasets/market1501/bounding_box_test/0286_c3s1_066967_02.jpg'
-    # 286
-    # img_path2 = 'D:/datasets/market1501/bounding_box_test/0286_c6s1_067426_02.jpg'
-    # img_path2 = 'D:/datasets/market1501/bounding_box_test/0286_c6s1_067526_02.jpg'
-    # 
-    # 1249
     img_path0 = 'D:/datasets/market1501/bounding_box_test/1249_c5s3_021240_03.jpg'
     img_path1 = 'D:/datasets/market1501/bounding_box_test/1249_c5s3_021365_02.jpg'
     img_path2 = 'D:/datasets/market1501/bounding_box_test/0215_c3s1_044551_01.jpg'
@@ -156,6 +146,24 @@ if __name__ == "__main__":
     # str_mesage = f'Euclidean Distances ({str(person_query)}-{str(person_gallery)})'
     print(f'Euclidean Distances ({str(person_query)}-{str(person_gallery)}): {distances.item()}')
 
+
+    feat0 = feat0.cpu().numpy()
+    feat1 = feat1.cpu().numpy()
+    feat2 = feat2.cpu().numpy()
+    feat3 = feat3.cpu().numpy()
+    feat_query1 = feat_query1.cpu().numpy()
+    feat_qallery1 = feat_qallery1.cpu().numpy()
+    
+    qf = [feat0, feat_query1]
+    gf = [feat0, feat1, feat2, feat3, feat_qallery1]
+    qf = np.array(qf)
+    gf = np.array(gf)
+
+    qf = np.squeeze(qf)
+    gf = np.squeeze(gf)
+
+    distmat = euclidean_distance(qf, gf)
+    print('euclidean_distance =======:\n', distmat)
 
     exit(0)
 

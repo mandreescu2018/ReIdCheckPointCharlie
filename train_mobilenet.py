@@ -5,7 +5,7 @@ import time
 from config import cfg
 from datasets.make_dataloader import make_dataloader
 from models.simple_model import BuildModel
-from processor.processor_mobilenet import Processor
+from processor.processor_mobilenet import ProcessorMobileNet
 from processor.make_optimizer import make_optimizer
 from processor import save_model
 from loss.build_loss import make_loss
@@ -41,11 +41,18 @@ if __name__ == "__main__":
     logger.info(args)
 
     train_loader, train_loader_normal, val_loader, num_query, num_classes, camera_num, view_num = make_dataloader(cfg)
+    for i, (imgs, pids, _, _) in enumerate(train_loader):
+        print(imgs.shape)
+        print(pids)
+        break
 
     cfg.NUM_CLASSES = num_classes
-    model = BuildModel(camera_num, view_num, cfg)
+    # model = BuildModel(camera_num, view_num, cfg)
     # model = ResNetModel(device=device)
     model = MobileNetV2(cfg.NUM_CLASSES)
+
+    x = model(imgs[0].unsqueeze(0))
+    print(x)
 
     summary(model=model, 
         input_size=(32, 3, 256, 128),
@@ -70,7 +77,7 @@ if __name__ == "__main__":
 
     start_time = time.perf_counter()
 
-    proc = Processor(cfg, 
+    proc = ProcessorMobileNet(cfg, 
                      model,
                      num_query,
                      train_loader,

@@ -1,0 +1,421 @@
+diff --git a/.vscode/launch.json b/.vscode/launch.json
+index 3d8ff95..d0ae0f5 100644
+--- a/.vscode/launch.json
++++ b/.vscode/launch.json
+@@ -22,6 +22,15 @@
+             "console": "integratedTerminal",
+             "justMyCode": true
+         },
++        {
++            "name": "Train HACNN",
++            "type": "debugpy",
++            "request": "launch",
++            "program": "${workspaceFolder}/train_hacnn.py",
++            "args": ["--config_file", "configurations/hacnn.yml"],
++            "console": "integratedTerminal",
++            "justMyCode": true
++        },
+         {
+             "name": "Test dataset",
+             "type": "debugpy",
+diff --git a/config/__pycache__/defaults.cpython-38.pyc b/config/__pycache__/defaults.cpython-38.pyc
+index 91fb675..59ff5a8 100644
+Binary files a/config/__pycache__/defaults.cpython-38.pyc and b/config/__pycache__/defaults.cpython-38.pyc differ
+diff --git a/configurations/dataset_big.yml b/configurations/dataset_big.yml
+index bfd6f35..3c34758 100644
+--- a/configurations/dataset_big.yml
++++ b/configurations/dataset_big.yml
+@@ -31,7 +31,7 @@ SOLVER:
+   WEIGHT_DECAY:  0.0005
+   WEIGHT_DECAY_BIAS: 0.0005
+   LARGE_FC_LR: False
+-  MAX_EPOCHS: 30
++  MAX_EPOCHS: 10
+   CHECKPOINT_PERIOD: 1
+   LOG_PERIOD: 50
+   EVAL_PERIOD: 5
+diff --git a/configurations/main.yml b/configurations/main.yml
+index dd0b03e..c761ef3 100644
+--- a/configurations/main.yml
++++ b/configurations/main.yml
+@@ -1,5 +1,6 @@
+ MODEL:
+-  PRETRAIN_CHOICE: 'imagenet'
++  PRETRAIN_CHOICE: ''
++  PRETRAIN_PATH: './out_market_cnn/RN50_resume_105.pth'
+   METRIC_LOSS_TYPE: 'triplet'
+   IF_LABELSMOOTH: 'on'
+   IF_WITH_CENTER: 'no'
+@@ -24,15 +25,15 @@ DATALOADER:
+ SOLVER:
+   IMS_PER_BATCH: 32
+   OPTIMIZER_NAME: "Adam"
+-  BASE_LR: 0.00025
++  BASE_LR: 0.0015
+   WARMUP_METHOD: 'linear'
+   WARMUP_ITERS: 10
+   WARMUP_FACTOR: 0.01  
+   WEIGHT_DECAY:  0.0005
+   WEIGHT_DECAY_BIAS: 0.0005
+   LARGE_FC_LR: False
+-  MAX_EPOCHS: 30
+-  CHECKPOINT_PERIOD: 1
++  MAX_EPOCHS: 100
++  CHECKPOINT_PERIOD: 5
+   LOG_PERIOD: 50
+   EVAL_PERIOD: 5
+   BIAS_LR_FACTOR: 2
+@@ -44,17 +45,19 @@ TEST:
+   EVAL: True
+   IMS_PER_BATCH: 64
+   RE_RANKING: False
+-  WEIGHT: 'weights/epoch30_model.pth'
++  # WEIGHT: 'weights/epoch100_dukemtmc.pth'
++  WEIGHT: 'out_market_cnn/RN50_resume_105.pth'
+   NECK_FEAT: 'before'
+   FEAT_NORM: 'yes'
+ 
+ DATASETS:
++  NAMES: ('market1501')
++  DATA_DIR: ('market1501')
++  ROOT_DIR: ('D:\datasets')
++OUTPUT_DIR: 'out_market_cnn_resnet'
+ 
+-#   NAMES: ('market1501')
+-# OUTPUT_DIR: 'out_market_cnn'
+-
+-  NAMES: ('dukemtmc')
+-OUTPUT_DIR: 'out_dukemtmc_cnn'
++#   NAMES: ('dukemtmc')
++# OUTPUT_DIR: 'out_dukemtmc_cnn'
+ 
+ #   NAMES: ('occ_duke')
+ #   ROOT_DIR: ('')
+diff --git a/export_to_onnx.py b/export_to_onnx.py
+index cda9324..d3abf76 100644
+--- a/export_to_onnx.py
++++ b/export_to_onnx.py
+@@ -6,7 +6,7 @@ from config import cfg
+ from datasets.make_dataloader import make_dataloader
+ from models.simple_model import BuildModel
+ from models.mobilenetV2 import MobileNetV2
+-from processor.engine_reid import do_inference
++from models import get_model
+ from processor.processor import Processor
+ 
+ device = 'cuda' if torch.cuda.is_available() else 'cpu'
+@@ -17,43 +17,42 @@ if __name__ == "__main__":
+ 
+     parser = argparse.ArgumentParser(description="ReID Baseline Training")
+     parser.add_argument(
+-        "--config_file", default="configurations/mobilenet.yml", help="path to config file", type=str
++        "--config_file", default="configurations/hacnn.yml", help="path to config file", type=str
+     )
+     
+     args = parser.parse_args()
+     cfg.merge_from_file(args.config_file)
+ 
+-    dummy_input = torch.randn(None, 3, 256, 128, device='cuda')
++    # dummy_input = torch.randn((1, 3, 160, 64), device='cuda')
++    dummy_input = torch.randn(1, 3, 160, 64, device='cuda')
+ 
+     train_loader, train_loader_normal, val_loader, num_query, num_classes, camera_num, view_num = make_dataloader(cfg)
+ 
+     cfg.NUM_CLASSES = num_classes
++    
+     # model = BuildModel(camera_num, view_num, cfg)
+-    model = MobileNetV2(num_classes=num_classes)
++    # model = MobileNetV2(num_classes=num_classes)
++    model = get_model(cfg)
+     
+     checkpoint = torch.load(cfg.TEST.WEIGHT)
+     model.load_state_dict(checkpoint['model_state_dict'])
+ 
++    # scripted_model = torch.jit.trace(model, dummy_input)
++
++    onnx_model_path = f"Export/{cfg.MODEL.NAME}_model.onnx"
++
+     summary(model=model, 
+-            input_size=(1, 3, 256, 128),
++            input_size=(1, 3, cfg.INPUT.SIZE_TEST[0], cfg.INPUT.SIZE_TEST[1]),
+             col_names=['input_size', 'output_size', 'num_params', 'trainable'],
+             col_width=20,
+             row_settings=['var_names'])
+     
+-    # torch.onnx.export(
+-    #     model,
+-    #     sample_input, 
+-    #     onnx_model_path,
+-    #     verbose=False,
+-    #     input_names=['input'],
+-    #     output_names=['output'],
+-    #     opset_version=12
+-    # )
++    
+     torch.onnx.export(model,                 # model being run
+                   dummy_input,           # model input (or a tuple for multiple inputs)
+-                  model_path,          # where to save the model (can be a file or file-like object)
++                  onnx_model_path,          # where to save the model (can be a file or file-like object)
+                   export_params=True,    # store the trained parameter weights inside the model file
+-                  opset_version=12,      # the ONNX version to export the model to
++                  opset_version=14,      # the ONNX version to export the model to
+                   do_constant_folding=True,  # whether to execute constant folding for optimization
+                   input_names=['input'],     # the model's input names
+                   output_names=['output'],   # the model's output names
+diff --git a/inference_model.py b/inference_model.py
+index 8a9e205..efdf456 100644
+--- a/inference_model.py
++++ b/inference_model.py
+@@ -6,7 +6,7 @@ import time
+ from config import cfg
+ from datasets.make_dataloader import make_dataloader
+ from models import get_model
+-from processor.processor_mobilenet import Processor
++from processor.processor_selector import get_processor
+ 
+ device = 'cuda' if torch.cuda.is_available() else 'cpu'
+ 
+@@ -15,7 +15,7 @@ if __name__ == "__main__":
+ 
+     parser = argparse.ArgumentParser(description="ReID Baseline Training")
+     parser.add_argument(
+-        "--config_file", default="configurations/hacnn.yml", help="path to config file", type=str
++        "--config_file", default="configurations/mobilenet.yml", help="path to config file", type=str
+     )
+     
+     args = parser.parse_args()
+@@ -35,8 +35,11 @@ if __name__ == "__main__":
+             col_width=20,
+             row_settings=['var_names'])
+     
++    processor = get_processor(cfg)
++
+     start = time.perf_counter()
+-    proc = Processor(cfg, 
++    
++    proc = processor(cfg, 
+                      model,
+                      num_query,
+                      train_loader,
+diff --git a/inference_onnx.py b/inference_onnx.py
+index 2c59594..ca95c68 100644
+--- a/inference_onnx.py
++++ b/inference_onnx.py
+@@ -10,7 +10,6 @@ from datasets.make_dataloader import make_dataloader
+ from models.simple_model import BuildModel
+ from models.model_selector import get_model
+ from processor.engine_reid import do_inference
+-from processor.processor import Processor
+ 
+ device = 'cuda' if torch.cuda.is_available() else 'cpu'
+ 
+diff --git a/models/harmonious_attention_cnn.py b/models/harmonious_attention_cnn.py
+index 4e9eb54..40541b2 100644
+--- a/models/harmonious_attention_cnn.py
++++ b/models/harmonious_attention_cnn.py
+@@ -158,6 +158,7 @@ class ChannelAttn(nn.Module):
+     def forward(self, x):
+         # squeeze operation (global average pooling)
+         x = F.avg_pool2d(x, x.size()[2:])
++        # x = F.adaptive_avg_pool2d(x, (1, 1))
+         # excitation operation (2 conv layers)
+         x = self.conv1(x)
+         x = self.conv2(x)
+@@ -182,7 +183,9 @@ class HardAttn(nn.Module):
+ 
+     def forward(self, x):
+         # squeeze operation (global average pooling)
+-        x = F.avg_pool2d(x, x.size()[2:]).view(x.size(0), x.size(1))
++        x = F.avg_pool2d(x, x.size()[2:])
++        # x = F.adaptive_avg_pool2d(x, (1, 1))
++        x = x.view(x.size(0), x.size(1))
+         # predict transformation parameters
+         theta = torch.tanh(self.fc(x))
+         theta = theta.view(-1, 4, 2)
+diff --git a/models/model_maker.py b/models/model_maker.py
+deleted file mode 100644
+index 8fc5446..0000000
+--- a/models/model_maker.py
++++ /dev/null
+@@ -1,15 +0,0 @@
+-from .harmonious_attention_cnn import HACNN
+-from .resnet_orig import ResNetModel
+-
+-__factory = {
+-    'resnet50': ResNetModel,
+-    'hacnn': HACNN,
+-}
+-
+-def get_model(cfg):
+-    if cfg.MODEL.NAME == 'hacnn':
+-        model = HACNN(cfg.NUM_CLASSES)
+-        return model
+-    elif cfg.MODEL.NAME not in __factory.keys():
+-        raise KeyError(f"Unknown model: {cfg.MODEL.NAME}")
+-    
+diff --git a/processor/processor_mobilenet.py b/processor/processor_mobilenet.py
+index 35c0935..19f108e 100644
+--- a/processor/processor_mobilenet.py
++++ b/processor/processor_mobilenet.py
+@@ -46,14 +46,13 @@ class ProcessorMobileNet(ProcessorBase):
+         self.tri_loss_meter.reset()
+     
+     def train_step(self):
+-        
++        super(ProcessorMobileNet, self).train_step()
+         # self.model.train()
+ 
+         for n_iter, (img, pid, _, _) in enumerate(self.train_loader):
+             
+             self.optimizer.zero_grad()
+             
+-
+             img = img.to(self.device)
+             label = pid.to(self.device)
+ 
+@@ -80,7 +79,8 @@ class ProcessorMobileNet(ProcessorBase):
+             
+             
+     def test_step(self):
+-        self.model.eval()
++        super(ProcessorMobileNet, self).test_step()
++        # self.model.eval()
+         for n_iter, (img, pid, camid, camids, target_view, _) in enumerate(self.val_loader):
+             
+             with torch.no_grad():
+diff --git a/test_center_loss.py b/test_center_loss.py
+index 6b8c972..ae0d0b0 100644
+--- a/test_center_loss.py
++++ b/test_center_loss.py
+@@ -1,3 +1,5 @@
++import numpy as np
++
+ import torch
+ from utils.misc import set_seeds
+ from loss.center_loss import CenterLoss
+@@ -9,7 +11,12 @@ if __name__ == '__main__':
+ 
+     center_loss = CenterLoss(device=device)    
+     features = torch.rand(16, 2048).to(device)
++    features_np = features.cpu().detach().numpy()
++    # save array in a file
++    np.save('features.npy', features_np)
++    # np.save('vector_array_all.npy', vector_array)        
+     targets = torch.Tensor([0, 1, 2, 3, 2, 3, 1, 4, 5, 3, 2, 1, 0, 0, 5, 4]).long().to(device)
+         
+     loss = center_loss(features, targets)
+     print(loss)
++    print(features)
+diff --git a/test_inference.py b/test_inference.py
+index e97d8d7..417581a 100644
+--- a/test_inference.py
++++ b/test_inference.py
+@@ -9,6 +9,7 @@ from models.simple_model import BuildModel
+ from models.mobilenetV2 import MobileNetV2
+ from processor.engine_reid import do_inference, inference_one_pic
+ import numpy as np
++from utils.metrics import euclidean_distance
+ 
+ device = 'cuda' if torch.cuda.is_available() else 'cpu'
+ 
+@@ -52,18 +53,7 @@ if __name__ == "__main__":
+ 
+     model.load_state_dict(checkpoint['model_state_dict'])
+ 
+-    # summary(model=model, 
+-    #         input_size=(32, 3, 256, 128),
+-    #         col_names=['input_size', 'output_size', 'num_params', 'trainable'],
+-    #         col_width=20,
+-    #         row_settings=['var_names'])
+     
+-    # img_path1 = 'D:/datasets/market1501/bounding_box_test/0286_c3s1_066967_02.jpg'
+-    # 286
+-    # img_path2 = 'D:/datasets/market1501/bounding_box_test/0286_c6s1_067426_02.jpg'
+-    # img_path2 = 'D:/datasets/market1501/bounding_box_test/0286_c6s1_067526_02.jpg'
+-    # 
+-    # 1249
+     img_path0 = 'D:/datasets/market1501/bounding_box_test/1249_c5s3_021240_03.jpg'
+     img_path1 = 'D:/datasets/market1501/bounding_box_test/1249_c5s3_021365_02.jpg'
+     img_path2 = 'D:/datasets/market1501/bounding_box_test/0215_c3s1_044551_01.jpg'
+@@ -157,6 +147,24 @@ if __name__ == "__main__":
+     print(f'Euclidean Distances ({str(person_query)}-{str(person_gallery)}): {distances.item()}')
+ 
+ 
++    feat0 = feat0.cpu().numpy()
++    feat1 = feat1.cpu().numpy()
++    feat2 = feat2.cpu().numpy()
++    feat3 = feat3.cpu().numpy()
++    feat_query1 = feat_query1.cpu().numpy()
++    feat_qallery1 = feat_qallery1.cpu().numpy()
++    
++    qf = [feat0, feat_query1]
++    gf = [feat0, feat1, feat2, feat3, feat_qallery1]
++    qf = np.array(qf)
++    gf = np.array(gf)
++
++    qf = np.squeeze(qf)
++    gf = np.squeeze(gf)
++
++    distmat = euclidean_distance(qf, gf)
++    print('euclidean_distance =======:\n', distmat)
++
+     exit(0)
+ 
+     do_inference(cfg,
+diff --git a/train_hacnn.py b/train_hacnn.py
+index ab9d722..407700c 100644
+--- a/train_hacnn.py
++++ b/train_hacnn.py
+@@ -15,8 +15,7 @@ from utils.logger import setup_logger
+ from solver import create_scheduler
+ from utils import Saver, setup_logger
+ from utils.misc import set_seeds
+-from models.model_maker import get_model
+-from models.mobilenetV2 import MobileNetV2
++from models.model_selector import get_model
+ from loss.softmax_loss import CrossEntropyLabelSmooth
+ 
+ 
+diff --git a/train_mobilenet.py b/train_mobilenet.py
+index 9f7c04c..c4d75f0 100644
+--- a/train_mobilenet.py
++++ b/train_mobilenet.py
+@@ -5,7 +5,7 @@ import time
+ from config import cfg
+ from datasets.make_dataloader import make_dataloader
+ from models.simple_model import BuildModel
+-from processor.processor_mobilenet import Processor
++from processor.processor_mobilenet import ProcessorMobileNet
+ from processor.make_optimizer import make_optimizer
+ from processor import save_model
+ from loss.build_loss import make_loss
+@@ -41,12 +41,19 @@ if __name__ == "__main__":
+     logger.info(args)
+ 
+     train_loader, train_loader_normal, val_loader, num_query, num_classes, camera_num, view_num = make_dataloader(cfg)
++    for i, (imgs, pids, _, _) in enumerate(train_loader):
++        print(imgs.shape)
++        print(pids)
++        break
+ 
+     cfg.NUM_CLASSES = num_classes
+-    model = BuildModel(camera_num, view_num, cfg)
++    # model = BuildModel(camera_num, view_num, cfg)
+     # model = ResNetModel(device=device)
+     model = MobileNetV2(cfg.NUM_CLASSES)
+ 
++    x = model(imgs[0].unsqueeze(0))
++    print(x)
++
+     summary(model=model, 
+         input_size=(32, 3, 256, 128),
+         col_names=['input_size', 'output_size', 'num_params', 'trainable'],
+@@ -70,7 +77,7 @@ if __name__ == "__main__":
+ 
+     start_time = time.perf_counter()
+ 
+-    proc = Processor(cfg, 
++    proc = ProcessorMobileNet(cfg, 
+                      model,
+                      num_query,
+                      train_loader,
